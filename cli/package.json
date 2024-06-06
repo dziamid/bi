@@ -3,16 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "env:local": "tsx ./src/env.ts local",
     "env:staging": "tsx ./src/env.ts staging",
     "env:production": "tsx ./src/env.ts production"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-  },
   "devDependencies": {
+    "@google-cloud/bigquery": "^7.7.0",
+    "@google-cloud/functions-framework": "^3.4.0",
+    "@google-cloud/pubsub": "^4.4.0",
+    "@google-cloud/tasks": "^5.4.0",
     "@types/node": "^20.12.13",
+    "@types/ramda": "^0.30.0",
+    "dotenv": "^16.4.5",
+    "ramda": "^0.30.0",
     "typescript": "^5.4.5"
   }
 }

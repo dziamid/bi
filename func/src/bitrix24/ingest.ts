@@ -1,6 +1,8 @@
-import {PubSub} from '@google-cloud/pubsub';
 import {type Request, type Response} from 'express';
-import {getGoogleProjectId} from '../utils';
+import {getEnvVar, getGoogleCloudTasksLocation, getGoogleProjectId} from '../utils/env';
+import {jsonToBase64} from './utils/encoders';
+import {CloudTasksClient} from '@google-cloud/tasks';
+import type {Bitrix24Event} from './utils/types';
 
 /**
  * Receives webhook events from Bitrix24 and publishes it to a Pub/Sub topic
@@ -8,25 +10,36 @@ import {getGoogleProjectId} from '../utils';
  * @param res
  */
 export const ingest = async (req: Request, res: Response) => {
-  const projectId = getGoogleProjectId();
-  const topic = `projects/${projectId}/topics/bitrix24-ingest`;
-  const pubsub = new PubSub();
+  console.log(`[ingest] req: ${JSON.stringify(req.body)}`);
 
-  try {
-    if (!req.body) {
-      res.status(400).send('No data received');
-      return;
-    }
-
-    const data = Buffer.from(JSON.stringify(req.body));
-
-    // Publish the message to the Pub/Sub topic
-    await pubsub.topic(topic).publishMessage({ data });
-    console.log(`Message published to ${topic}: ${data.toString()}`);
-
-    res.status(200).send('OK');
-  } catch (error) {
-    console.error('Error publishing message:', error);
-    res.status(500).send('Internal Server Error');
+  if (!req.body) {
+    res.status(400).send('Bad Request');
+    return;
   }
+  const event = req.body as Bitrix24Event;
+
+  const projectId = getGoogleProjectId();
+  const location = getGoogleCloudTasksLocation();
+  const tasks = new CloudTasksClient();
+
+  const queuePath = tasks.queuePath(projectId, location, 'bitrix24');
+  console.log(`Creating task in queue: ${queuePath}`);
+
+  const [task] = await tasks.createTask({
+    parent: queuePath,
+    task: {
+      httpRequest: {
+        httpMethod: 'POST',
+        url: `${getEnvVar('FUNCTION_URL')}/bitrix24/enrich`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonToBase64(event),
+      },
+    },
+  });
+
+  console.log(`Created bitrix24 task to enrich event: ${task.name}`)
+
+  res.status(200).send('OK');
 };

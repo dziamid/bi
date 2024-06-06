@@ -1,1 +1,4 @@
 GOOGLE_CLOUD_PROJECT=veloman-staging
+FUNCTION_URL=https://europe-west3-veloman-staging.cloudfunctions.net/api3
+GCLOUD_CONFIGURATION=bi-staging
+GOOGLE_CLOUD_TASKS_LOCATION=europe-west3

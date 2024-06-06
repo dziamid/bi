@@ -1,1 +1,4 @@
 GOOGLE_CLOUD_PROJECT=veloman-production
+FUNCTION_URL=https://europe-west3-veloman-production.cloudfunctions.net/api3
+GCLOUD_CONFIGURATION=bi-production
+GOOGLE_CLOUD_TASKS_LOCATION=europe-west3

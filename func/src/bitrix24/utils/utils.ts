@@ -1,5 +1,10 @@
 import { type BatchEvent, type Bitrix24Event } from './types';
 
+export const knownModels = ['deal'];
+
+export function isKnownModel(model: string): boolean {
+  return knownModels.includes(model);
+}
 export function getModelFromEvent(event: Bitrix24Event): 'deal' | 'unknown' {
   if (/DEAL/.test(event.event)) {
     return 'deal';
@@ -15,7 +20,7 @@ export function getRecordIdFromEvent(event: Bitrix24Event) {
 export function getEventTypeFromEvent(event: Bitrix24Event): 'create' | 'update' | 'delete' | 'unknown' {
   if (/UPDATE$/.test(event.event)) {
     return 'update';
-  } else if (/CREATE$/.test(event.event)) {
+  } else if (/ADD$/.test(event.event)) {
     return 'create';
   } else if (/DELETE$/.test(event.event)) {
     return 'delete';
@@ -24,6 +29,8 @@ export function getEventTypeFromEvent(event: Bitrix24Event): 'create' | 'update'
   }
 }
 
-export function isCreatedOrUpdatedEvent(event: BatchEvent): boolean {
-  return event.eventType === 'create' || event.eventType === 'update';
+export function isCreatedOrUpdatedEvent(event: Bitrix24Event): boolean {
+  const eventType = getEventTypeFromEvent(event);
+
+  return eventType === 'create' || eventType === 'update';
 }

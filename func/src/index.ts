@@ -1,12 +1,18 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
-import * as bitrix24 from './bitrix24';
+import bitrix24 from './bitrix24';
+import logger from './middleware/logger';
+import catchAll from './middleware/catch-all';
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(logger);
 
-app.post('/bitrix24/ingest', bitrix24.ingest);
+app.use('/bitrix24', bitrix24);
+app.use(catchAll);
 
 export const api3 = app;

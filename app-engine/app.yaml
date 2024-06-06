@@ -1,8 +1,0 @@
-service: default
-runtime: nodejs
-env: flex
-manual_scaling:
-  instances: 1
-runtime_config:
-  operating_system: "ubuntu22"
-  runtime_version: "22"

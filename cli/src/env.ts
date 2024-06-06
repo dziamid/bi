@@ -1,19 +1,22 @@
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
+import { parse } from 'dotenv';
 
 async function run() {
   const env = process.argv[2] as string;
-  if (!['staging', 'production'].includes(env)) {
+  if (!['local', 'staging', 'production'].includes(env)) {
     throw new Error(`Unexpected env: ${env}, expecting: staging or production`);
   }
 
   const envSource = `../env/${env}`;
-  console.log(`Loaded env\n: ${readFileSync(envSource, 'utf-8')}`);
-  runCommand(`gcloud config configurations activate bi-${env}`);
 
+  console.log(`Using env vars:\n${readFileSync(envSource, 'utf-8')}`);
+  const envVars = parse(readFileSync(envSource, 'utf-8'));
+  const configuration = getEnvVar('GCLOUD_CONFIGURATION', envVars);
+
+  runCommand(`gcloud config configurations activate ${configuration}`);
+  runCommand(`cp ${envSource} .env`);
   runCommand(`cp ${envSource} ../func/.env`);
-  runCommand(`cp ${envSource} ../app-engine/.env`);
-
 }
 
 run()
@@ -27,4 +30,12 @@ run()
 function runCommand(command: string) {
   console.log(`Executing: ${command}`);
   execSync(command);
+}
+
+function getEnvVar(name: string, source: Record<string, string>): string {
+  const value = source[name];
+  if (!value) {
+    throw new Error(`Environment variable ${name} is not set`);
+  }
+  return value;
 }

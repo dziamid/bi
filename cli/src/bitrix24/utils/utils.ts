@@ -1,5 +1,10 @@
 import { type BatchEvent, type Bitrix24Event } from './types';
 
+export const knownModels = ['deal'];
+
+export function isKnownModel(model: string): boolean {
+  return knownModels.includes(model);
+}
 export function getModelFromEvent(event: Bitrix24Event): 'deal' | 'unknown' {
   if (/DEAL/.test(event.event)) {
     return 'deal';
@@ -26,5 +31,6 @@ export function getEventTypeFromEvent(event: Bitrix24Event): 'create' | 'update'
 
 export function isCreatedOrUpdatedEvent(event: Bitrix24Event): boolean {
   const eventType = getEventTypeFromEvent(event);
+
   return eventType === 'create' || eventType === 'update';
 }

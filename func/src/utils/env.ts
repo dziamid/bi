@@ -9,3 +9,7 @@ export function getEnvVar(name: string): string {
 export function getGoogleProjectId() {
   return getEnvVar('GOOGLE_CLOUD_PROJECT');
 }
+
+export function getGoogleCloudTasksLocation() {
+  return getEnvVar('GOOGLE_CLOUD_TASKS_LOCATION');
+}

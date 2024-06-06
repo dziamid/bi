@@ -1,0 +1,4 @@
+GOOGLE_CLOUD_PROJECT=veloman-staging
+GOOGLE_CLOUD_TASKS_LOCATION=europe-west3
+FUNCTION_URL=https://dz.ngrok.dev
+GCLOUD_CONFIGURATION=bi-staging
