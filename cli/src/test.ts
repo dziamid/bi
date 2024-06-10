@@ -1,3 +1,3 @@
-import {bitrix24MockEvent} from "./bitrix24/test/mocks";
+import { sharedFunction } from '@bi/shared';
 
-console.log(JSON.stringify(bitrix24MockEvent, null, 2));
+sharedFunction();

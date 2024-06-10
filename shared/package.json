@@ -1,17 +1,16 @@
 {
-  "name": "@bi/func",
+  "name": "@bi/shared",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node  --packages=external --outfile=dist/index.js --format=esm",
-    "deploy": "gcloud functions deploy api3 --gen2 --runtime nodejs20 --trigger-http --region=europe-west3 --allow-unauthenticated --service-acccount=function@veloman-staging.iam.gserviceaccount.com",
+    "build": "tsc && esbuild src/index.ts --bundle --platform=node  --packages=external --outfile=dist/index.js --format=esm",
     "dev": "nodemon",
     "gcp-build": "npm run build",
     "lint": "tsc",
     "prestart": "npm run build",
-    "start": "functions-framework --target=api3 --port=8080"
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -27,8 +26,7 @@
     "morgan": "^1.10.0",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.1",
-    "ramda": "^0.30.0",
-    "@bi/shared": "*"
+    "ramda": "^0.30.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
