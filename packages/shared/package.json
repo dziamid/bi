@@ -1,0 +1,22 @@
+{
+  "name": "@bi/shared",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && esbuild src/index.ts --bundle --platform=node  --packages=external --outfile=dist/index.js --format=esm",
+    "dev": "nodemon",
+    "lint": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.1",
+    "@types/node": "^20.13.0",
+    "esbuild": "^0.21.4",
+    "typescript": "^5.4.5"
+  }
+}
