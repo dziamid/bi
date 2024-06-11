@@ -1,5 +1,6 @@
 import {type Request, type Response} from 'express';
-import {encoders, env, types} from '@bi/bitrix24';
+import {encoders, types} from '@bi/bitrix24';
+import {env} from '@bi/core';
 import {CloudTasksClient} from '@google-cloud/tasks';
 
 /**

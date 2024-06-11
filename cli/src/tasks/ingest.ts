@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 import { CloudTasksClient } from '@google-cloud/tasks';
 import * as bitrix24 from '@bi/bitrix24';
-import { env } from '@bi/bitrix24';
+import { env } from '@bi/core';
 
 dotenv.config();
 

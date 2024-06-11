@@ -12,19 +12,16 @@
     "build": "run-s build:packages build:apps",
     "dev": "run-p dev:**",
     "deploy": "run-s deploy:*",
-
     "build:packages": "run-p build:packages:*",
     "build:packages:bitrix24": "npm run --workspace='packages/bitrix24' build",
-    "build:packages:shared": "npm run --workspace='packages/shared' build",
+    "build:packages:core": "npm run --workspace='packages/core' build",
     "build:apps": "run-p build:func build:express",
     "build:func": "npm run --workspace='func' build",
     "build:express": "npm run --workspace='express' build",
-
     "dev:packages:bitrix24": "npm run --workspace='packages/bitrix24' dev",
-    "dev:packages:shared": "npm run --workspace='packages/shared' dev",
+    "dev:packages:core": "npm run --workspace='packages/core' dev",
     "dev:func": "npm run --workspace='func' dev",
     "dev:express": "npm run --workspace='express' dev",
-
     "deploy:func": "npm run --workspace='func' deploy"
   },
   "devDependencies": {
