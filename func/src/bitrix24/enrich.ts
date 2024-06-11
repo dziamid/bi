@@ -1,6 +1,6 @@
 import {type Request, type Response} from 'express';
-import * as bitrix24 from '@bi/bitrix24';
-import {BigQuery} from '@google-cloud/bigquery';
+import {bigqueryCdc, types, utils} from '@bi/bitrix24';
+import {env} from '@bi/core';
 
 /**
  * Receives webhook events from Bitrix24 and publishes it to a Pub/Sub topic
@@ -8,10 +8,14 @@ import {BigQuery} from '@google-cloud/bigquery';
  * @param res
  */
 export const enrich = async (req: Request, res: Response) => {
-  const bigquery = new BigQuery();
-  const event: bitrix24.types.Bitrix24Event = req.body;
-  const model = bitrix24.utils.getModelFromEvent(event);
-  const eventType = bitrix24.utils.getEventTypeFromEvent(event);
+  const event: types.Bitrix24Event = req.body;
+  const model = utils.getModelFromEvent(event);
+  const eventType = utils.getEventTypeFromEvent(event);
+  const projectId = env.getGoogleProjectId();
+  const datasetId = 'bitrix24';
+  const tableId = 'deals';
+  const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
+  const writeClient = new bigqueryCdc.managedwriter.WriterClient({ projectId });
 
   if (eventType === 'unknown') {
     console.log(`Ignoring unknown event type in event: '${event.event}`);
@@ -25,7 +29,8 @@ export const enrich = async (req: Request, res: Response) => {
     return;
   }
 
-  await bitrix24.bigquery.syncEventToBigquery(bigquery, event);
+  await bigqueryCdc.syncEventToBigquery(writeClient, destinationTable, event);
+  writeClient.close();
 
   res.status(200).send('OK');
 };

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsx esbuild.ts",
-    "deploy": "cd dist && gcloud functions deploy api3 --gen2 --runtime nodejs20 --trigger-http --region=europe-west3 --allow-unauthenticated --service-account=function@veloman-staging.iam.gserviceaccount.com",
+    "deploy": "cd dist && gcloud functions deploy api3 --gen2 --runtime nodejs20 --trigger-http --region=europe-west3 --allow-unauthenticated --service-account=function@veloman-staging.iam.gserviceaccount.com --env-vars-file=.env.yaml",
     "dev": "nodemon",
     "gcp-build": "npm run build",
     "lint": "tsc",

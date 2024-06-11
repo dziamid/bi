@@ -2,6 +2,8 @@ import esbuild from 'esbuild';
 import { omit } from 'ramda';
 import packageJson from './package.json';
 import { mkdir, rm, writeFile } from 'fs/promises';
+import * as yaml from 'js-yaml';
+import { config } from 'dotenv';
 
 esbuild
   .build({
@@ -17,6 +19,12 @@ esbuild
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist');
 await writeFile('dist/package.json', JSON.stringify(getDistPackageJson(packageJson), null, 2));
+
+const dotenvConfig = config();
+const envVarsYaml = yaml.dump(dotenvConfig.parsed);
+
+await writeFile('dist/.env.yaml', envVarsYaml, 'utf-8');
+
 
 type PackageJson = {
   main?: string;

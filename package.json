@@ -22,9 +22,14 @@
     "dev:packages:core": "npm run --workspace='packages/core' dev",
     "dev:func": "npm run --workspace='func' dev",
     "dev:express": "npm run --workspace='express' dev",
-    "deploy:func": "npm run --workspace='func' deploy"
+    "deploy:func": "npm run --workspace='func' deploy",
+    "env:local": "npm run --workspace='cli' env:local",
+    "env:staging": "npm run --workspace='cli' env:staging",
+    "env:production": "npm run --workspace='cli' env:production"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "js-yaml": "^4.1.0",
     "npm-run-all": "^4.1.5"
   }
 }
