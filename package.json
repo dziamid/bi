@@ -11,12 +11,14 @@
   "scripts": {
     "build": "run-s build:shared build:func build:express",
     "dev": "run-p dev:*",
+    "deploy": "run-s deploy:*",
     "build:shared": "npm -w shared run build",
     "build:func": "npm -w func run build",
     "build:express": "npm -w express run build",
     "dev:shared": "npm -w shared run dev",
     "dev:func": "npm -w func run dev",
-    "dev:express": "npm -w express run dev"
+    "dev:express": "npm -w express run dev",
+    "deploy:func": "npm -w func run deploy"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5"
