@@ -1,7 +1,5 @@
 import {type Request, type Response} from 'express';
-import type {Bitrix24Event} from './utils/types';
-import {getEventTypeFromEvent, getModelFromEvent} from './utils/utils';
-import {syncEventToBigquery} from './utils/bigquery';
+import * as bitrix24 from '@bi/bitrix24';
 import {BigQuery} from '@google-cloud/bigquery';
 
 /**
@@ -11,9 +9,9 @@ import {BigQuery} from '@google-cloud/bigquery';
  */
 export const enrich = async (req: Request, res: Response) => {
   const bigquery = new BigQuery();
-  const event: Bitrix24Event = req.body;
-  const model = getModelFromEvent(event);
-  const eventType = getEventTypeFromEvent(event);
+  const event: bitrix24.types.Bitrix24Event = req.body;
+  const model = bitrix24.utils.getModelFromEvent(event);
+  const eventType = bitrix24.utils.getEventTypeFromEvent(event);
 
   if (eventType === 'unknown') {
     console.log(`Ignoring unknown event type in event: '${event.event}`);
@@ -27,7 +25,7 @@ export const enrich = async (req: Request, res: Response) => {
     return;
   }
 
-  await syncEventToBigquery(bigquery, event);
+  await bitrix24.bigquery.syncEventToBigquery(bigquery, event);
 
   res.status(200).send('OK');
 };

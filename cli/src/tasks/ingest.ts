@@ -1,16 +1,15 @@
 import * as dotenv from 'dotenv';
 import { CloudTasksClient } from '@google-cloud/tasks';
-import { jsonToBase64 } from '../bitrix24/utils/encoders';
-import { Bitrix24Event } from '../types';
-import { getEnvVar, getGoogleCloudTasksLocation, getGoogleProjectId } from '../bitrix24/utils/env';
+import * as bitrix24 from '@bi/bitrix24';
+import { env } from '@bi/bitrix24';
 
 dotenv.config();
 
 async function run() {
-  const projectId = getGoogleProjectId();
-  const location = getGoogleCloudTasksLocation();
+  const projectId = env.getGoogleProjectId();
+  const location = env.getGoogleCloudTasksLocation();
   const tasks = new CloudTasksClient();
-  const event: Bitrix24Event = {
+  const event: bitrix24.types.Bitrix24Event = {
     event: 'ONCRMDEALUPDATE',
     event_id: '33',
     data: { FIELDS: { ID: '21' } },
@@ -31,11 +30,11 @@ async function run() {
     task: {
       httpRequest: {
         httpMethod: 'POST',
-        url: `${getEnvVar('FUNCTION_URL')}/bitrix24/enrich`,
+        url: `${env.getEnvVar('FUNCTION_URL')}/bitrix24/enrich`,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: jsonToBase64(event),
+        body: bitrix24.encoders.jsonToBase64(event),
       },
     },
   });

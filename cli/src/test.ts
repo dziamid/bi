@@ -1,3 +1,4 @@
-import { sharedFunction } from '@bi/shared';
+import { sharedFunction, bar } from '@bi/shared';
 
 sharedFunction();
+bar();

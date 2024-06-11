@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true,
+    "emitDeclarationOnly": true,
     /* Base Options: */
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -14,17 +18,12 @@
     /* If NOT transpiling with TypeScript: */
     "moduleResolution": "Bundler",
     "module": "ESNext",
-    "noEmit": true,
     /* If your code doesn't run in the DOM: */
     "lib": [
       "es2022"
     ],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./typings"
-    ],
     "paths": {
-      "@bi/*": ["../packages/*/src"]
+      "@bi/*": ["../*"]
     }
   }
 }

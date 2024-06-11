@@ -3,9 +3,12 @@ import * as dotenv from 'dotenv';
 import bitrix24 from './bitrix24';
 import logger from './middleware/logger';
 import catchAll from './middleware/catch-all';
-import { sharedFunction } from '@bi/shared';
+import { sharedFunction, foo, bar, baz } from '@bi/shared';
 
 sharedFunction();
+foo();
+bar();
+baz();
 dotenv.config();
 
 const app = express();
