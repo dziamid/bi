@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsx esbuild.ts",
-    "deploy": "cd dist && gcloud functions deploy api3 --gen2 --runtime nodejs20 --trigger-http --region=europe-west3 --allow-unauthenticated --service-account=function@veloman-staging.iam.gserviceaccount.com",
+    "deploy": "gcloud functions deploy api3 --gen2 --runtime nodejs20 --trigger-http --region=europe-west3 --allow-unauthenticated --service-account=function@veloman-staging.iam.gserviceaccount.com",
     "dev": "nodemon",
     "gcp-build": "npm run build",
     "lint": "tsc",
@@ -17,7 +17,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@bi/shared": "*",
     "@google-cloud/bigquery": "^7.7.0",
     "@google-cloud/bigquery-storage": "^4.8.0",
     "@google-cloud/functions-framework": "^3.4.0",
@@ -30,9 +29,6 @@
     "nodemon": "^3.1.1",
     "ramda": "^0.30.0"
   },
-  "bundledDependencies": [
-    "@bi/shared"
-  ],
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",

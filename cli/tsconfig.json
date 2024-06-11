@@ -22,6 +22,9 @@
     "typeRoots": [
       "./node_modules/@types",
       "./typings"
-    ]
+    ],
+    "paths": {
+      "@bi/*": ["../*"]
+    }
   }
 }
