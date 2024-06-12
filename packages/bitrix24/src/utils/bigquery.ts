@@ -1,75 +1,26 @@
 import { BigQuery } from '@google-cloud/bigquery';
-import { type Bitrix24Event, type Deal } from './types';
-import { getEventTypeFromEvent, getRecordIdFromEvent, isCreatedOrUpdatedEvent } from './utils';
-import { getDeal } from './api';
+import { type TableMetadata } from '@google-cloud/bigquery/build/src/table';
 
-export async function syncEventToBigquery(bigquery: BigQuery, event: Bitrix24Event) {
-  const eventType = getEventTypeFromEvent(event);
-  const recordId = getRecordIdFromEvent(event);
+export { BigQuery };
+export const dealsTable: TableMetadata = {
+  tableConstraints: {
+    primaryKey: { columns: ['ID'] },
+  },
+  schema: {
+    fields: [
+      { name: 'ID', type: 'STRING' },
+      { name: 'TITLE', type: 'STRING' },
+      { name: 'STAGE_ID', type: 'STRING' },
+      { name: 'TYPE_ID', type: 'STRING' },
+    ],
+  },
+};
 
-  let data: Deal | undefined;
-
-  if (isCreatedOrUpdatedEvent(event)) {
-    data = await getDeal(recordId);
-  }
-
-  if (eventType === 'delete') {
-    await deleteRecord(bigquery, 'bitrix24', 'deals', recordId);
-  } else if (eventType === 'update' && data) {
-    await updateRecord(bigquery, 'bitrix24', 'deals', data);
-  } else if (eventType === 'create' && data) {
-    await createRecord(bigquery, 'bitrix24', 'deals', data);
-  }
+export function deleteTable(bigquery: BigQuery, datasetId: string, tableId: string) {
+  const table = bigquery.dataset(datasetId).table(tableId);
+  return table.delete();
 }
 
-export async function createRecord(bigquery: BigQuery, datasetId: string, tableId: string, data: Deal) {
-  const dataset = bigquery.dataset(datasetId);
-  const table = dataset.table(tableId);
-
-  const res = await table.insert(data);
-  console.log(`Created record with ID: ${data.ID}`);
-  return res;
-}
-
-export async function updateRecord(bigquery: BigQuery, datasetId: string, tableId: string, data: Deal) {
-  const query = `
-    UPDATE \`${datasetId}.${tableId}\`
-    SET TITLE = @TITLE, STAGE_ID = @STAGE_ID, TYPE_ID = @TYPE_ID
-    WHERE ID = @id
-  `;
-
-  const options = {
-    query: query,
-    params: {
-      ID: data.ID,
-      TITLE: data.TITLE,
-      STAGE_ID: data.STAGE_ID,
-      TYPE_ID: data.TYPE_ID,
-    },
-  };
-
-  const res = await bigquery.query(options);
-
-  console.log(`Updated record with ID: ${data.ID}`);
-
-  return res;
-}
-
-export async function deleteRecord(bigquery: BigQuery, datasetId: string, tableId: string, id: string) {
-  const query = `
-    DELETE FROM \`${datasetId}.${tableId}\`
-    WHERE id = @id
-  `;
-
-  const options = {
-    query: query,
-    params: {
-      id: id,
-    },
-  };
-
-  const res = await bigquery.query(options);
-  console.log(`Deleted record with ID: ${id}`);
-
-  return res;
+export function createTable(bigquery: BigQuery, datasetId: string, tableId: string, metadata: TableMetadata) {
+  return bigquery.dataset(datasetId).createTable(tableId, metadata);
 }

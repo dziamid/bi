@@ -1,3 +1,10 @@
+export type JSONPrimitive = string | number | bigint | boolean | Date | null;
+export type JSONValue = JSONPrimitive | JSONObject | JSONArray;
+export type JSONObject = {
+  [member: string]: JSONValue;
+};
+export type JSONArray = Array<JSONValue>;
+export type JSONList = Array<JSONObject>;
 
 export type Bitrix24Event = {
   event: 'ONCRMDEALUPDATE' | 'ONCRMDEALCREATE' | 'ONCRMDEALDELETE';
@@ -28,4 +35,6 @@ export interface Deal {
   TITLE: string;
   STAGE_ID: string;
   TYPE_ID: string;
+
+  [key: string]: JSONPrimitive;
 }

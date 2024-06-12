@@ -7,7 +7,7 @@ import { getDeal } from '@bi/bitrix24/src/utils/api';
 export { managedwriter };
 type WriterClient = managedwriter.WriterClient;
 
-enum WriteStreamView {
+export enum WriteStreamView {
   WRITE_STREAM_VIEW_UNSPECIFIED = 0,
   BASIC = 1,
   FULL = 2,
@@ -55,11 +55,13 @@ export async function upsertRowsWithDefaultStream(writeClient: WriterClient, des
     streamId: `${destinationTable}/streams/_default`,
     view: WriteStreamView.FULL,
   });
+  console.log(`Got write stream: ${writeStream.name}`)
 
   const tableSchema = writeStream.tableSchema;
   if (!tableSchema) {
     throw new Error('Table schema is not defined');
   }
+  console.log(`Table schema: ${JSON.stringify(tableSchema)}`)
 
   const tableSchemaWithChangeType = {
     fields: tableSchema?.fields?.concat([
@@ -78,16 +80,18 @@ export async function upsertRowsWithDefaultStream(writeClient: WriterClient, des
     ]),
   };
   const protoDescriptor = adapt.convertStorageSchemaToProto2Descriptor(tableSchemaWithChangeType, 'root');
-
+    console.log(`Proto descriptor: ${JSON.stringify(protoDescriptor)}`)
   const connection = await writeClient.createStreamConnection({
     streamId: managedwriter.DefaultStream,
     destinationTable,
   });
+    console.log(`Got connection for stream: ${connection.getStreamId()}`)
 
   const writer = new managedwriter.JSONWriter({
     connection,
     protoDescriptor,
   });
+    console.log(`Created writer`);
 
   return writer.appendRows(rowsWithChangeType).getResult();
 }
