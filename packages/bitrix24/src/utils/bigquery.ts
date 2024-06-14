@@ -1,5 +1,5 @@
 import { BigQuery } from '@google-cloud/bigquery';
-import { type TableMetadata } from '@google-cloud/bigquery/build/src/table';
+import type { TableMetadata } from '@google-cloud/bigquery/build/src/table';
 
 export { BigQuery };
 export const dealsTable: TableMetadata = {
