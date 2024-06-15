@@ -1,23 +1,30 @@
 import { fromPairs, pick, values } from 'ramda';
 import fetch from 'node-fetch';
-import {type Deal, type JSONObject} from './types';
+import {type Deal, type DealCategoryStage, type JSONObject} from '../types';
 
 const allowedFields: readonly (keyof Deal)[] = ['ID', 'TITLE', 'TYPE_ID', 'STAGE_ID'];
+
+type ResultTime = {
+  start: number;
+  finish: number;
+  duration: number;
+  processing: number;
+  date_start: string; // '2024-06-12T12:08:39+03:00'
+  date_finish: string; // '2024-06-12T12:08:39+03:00'
+  operating_reset_at: number;
+  operating: number;
+};
 
 type ListDealResult = {
   result: Deal[];
   total: number;
   next: string;
-  time: {
-    start: number;
-    finish: number;
-    duration: number;
-    processing: number;
-    date_start: string; // '2024-06-12T12:08:39+03:00'
-    date_finish: string; // '2024-06-12T12:08:39+03:00'
-    operating_reset_at: number;
-    operating: number;
-  };
+  time: ResultTime;
+};
+
+type ListDealCategoryStageResult = {
+  result: DealCategoryStage[];
+  time: ResultTime;
 };
 
 export async function listDeals() {
@@ -52,4 +59,16 @@ export async function getDeal(recordId: string | number) {
   const [res] = await batchGetDeals([recordId]);
 
   return res;
+}
+
+export async function listDealCategoryStage() {
+  const response = await fetch(`https://b24-x3gqgt.bitrix24.by/rest/1/phdahz5gpjz0hl37/crm.dealcategory.stage.list`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const result = (await response.json()) as Promise<ListDealCategoryStageResult>;
+  return result;
 }

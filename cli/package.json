@@ -6,7 +6,8 @@
   "scripts": {
     "env:local": "tsx ./src/env.ts local",
     "env:staging": "tsx ./src/env.ts staging",
-    "env:production": "tsx ./src/env.ts production"
+    "env:production": "tsx ./src/env.ts production",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

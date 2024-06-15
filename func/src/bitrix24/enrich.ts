@@ -1,5 +1,5 @@
 import {type Request, type Response} from 'express';
-import {bigqueryCdc, types, utils} from '@bi/bitrix24';
+import {bigqueryV2, types, utils} from '@bi/bitrix24';
 import {env} from '@bi/core';
 
 /**
@@ -15,7 +15,7 @@ export const enrich = async (req: Request, res: Response) => {
   const datasetId = 'bitrix24';
   const tableId = 'deals';
   const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
-  const writeClient = new bigqueryCdc.managedwriter.WriterClient({ projectId });
+  const writeClient = new bigqueryV2.writeStream.managedwriter.WriterClient({ projectId });
 
   if (eventType === 'unknown') {
     console.log(`Ignoring unknown event type in event: '${event.event}`);
@@ -29,7 +29,7 @@ export const enrich = async (req: Request, res: Response) => {
     return;
   }
 
-  await bigqueryCdc.syncEventToBigquery(writeClient, destinationTable, event);
+  await bigqueryV2.writeStream.syncEventToBigquery(writeClient, destinationTable, event);
   writeClient.close();
 
   res.status(200).send('OK');

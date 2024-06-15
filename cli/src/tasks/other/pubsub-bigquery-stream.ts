@@ -1,5 +1,5 @@
 import { Encodings, PubSub } from '@google-cloud/pubsub';
-import type { Deal } from '../types';
+import type { Deal } from '../../types';
 
 import avro from 'avro-js';
 

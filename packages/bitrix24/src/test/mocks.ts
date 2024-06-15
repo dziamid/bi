@@ -1,4 +1,4 @@
-import { type Bitrix24Event } from '../utils/types';
+import { type Bitrix24Event } from '../types';
 
 export const bitrix24MockEvent: Bitrix24Event = {
   event: 'ONCRMDEALCREATE',

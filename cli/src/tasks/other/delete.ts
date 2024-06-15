@@ -1,11 +1,11 @@
-import { bigqueryCdc } from '@bi/bitrix24';
+import { bigqueryV2 } from '@bi/bitrix24';
 
 const projectId = 'veloman-staging';
 const datasetId = 'bitrix24';
 const tableId = 'deals';
 
 const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
-const writeClient = new bigqueryCdc.managedwriter.WriterClient({ projectId });
+const writeClient = new bigqueryV2.writeStream.managedwriter.WriterClient({ projectId });
 
 const data = [
   {
@@ -13,7 +13,7 @@ const data = [
   },
 ];
 
-const result = await bigqueryCdc.deleteRowsWithDefaultStream(writeClient, destinationTable, data);
+const result = await bigqueryV2.writeStream.deleteRowsWithDefaultStream(writeClient, destinationTable, data);
 console.log(result);
 
 writeClient.close();

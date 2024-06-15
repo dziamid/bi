@@ -1,8 +1,7 @@
-import * as api from './utils/api';
-import * as bigquery from './utils/bigquery';
-import * as bigqueryCdc from './utils/bigquery-cdc';
-import * as encoders from './utils/encoders';
-import * as types from './utils/types';
-import * as utils from './utils/utils';
+import * as api from '@bi/bitrix24/src/api/api';
+import * as encoders from '@bi/bitrix24/src/api/encoders';
+import * as types from './types';
+import * as utils from '@bi/bitrix24/src/api/utils';
+import * as bigqueryV2 from './bigquery';
 
-export { api, bigquery, bigqueryCdc, encoders, types, utils };
+export { api, bigqueryV2, encoders, types, utils };

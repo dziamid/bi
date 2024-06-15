@@ -1,4 +1,4 @@
-import { type BatchEvent, type Bitrix24Event } from './types';
+import { type BatchEvent, type Bitrix24Event } from '../types';
 
 export const knownModels = ['deal'];
 

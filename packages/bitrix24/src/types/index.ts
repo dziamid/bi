@@ -38,3 +38,10 @@ export interface Deal {
 
   [key: string]: JSONPrimitive;
 }
+
+export interface DealCategoryStage {
+  NAME: string;
+  SORT: number;
+  STATUS_ID: string;
+  [key: string]: JSONPrimitive;
+}

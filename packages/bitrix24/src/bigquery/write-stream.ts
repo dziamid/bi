@@ -1,8 +1,8 @@
 import { adapt, managedwriter } from '@google-cloud/bigquery-storage';
 import type { JSONList } from '@google-cloud/bigquery-storage/build/src/managedwriter/json_writer';
-import type { Bitrix24Event, Deal } from '@bi/bitrix24/src/utils/types';
-import { getEventTypeFromEvent, getRecordIdFromEvent, isCreatedOrUpdatedEvent } from '@bi/bitrix24/src/utils/utils';
-import { getDeal } from '@bi/bitrix24/src/utils/api';
+import type { Bitrix24Event, Deal } from '@bi/bitrix24/src/types';
+import { getRecordIdFromEvent, isCreatedOrUpdatedEvent } from '@bi/bitrix24/src/api/utils';
+import { getDeal } from '@bi/bitrix24/src/api/api';
 
 export { managedwriter };
 type WriterClient = managedwriter.WriterClient;

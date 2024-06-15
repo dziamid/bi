@@ -11,7 +11,7 @@
     "gcp-build": "npm run build",
     "lint": "tsc",
     "prestart": "npm run build",
-    "start": "functions-framework --target=api3 --port=8080"
+    "start": "functions-framework --target=api3 --port=9001"
   },
   "keywords": [],
   "author": "",
