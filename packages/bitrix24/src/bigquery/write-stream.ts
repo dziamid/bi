@@ -13,7 +13,7 @@ export enum WriteStreamView {
   FULL = 2,
 }
 
-export async function syncEventToBigquery(writeClient: WriterClient, destinationTable: string, event: Bitrix24Event) {
+export async function syncEvent(writeClient: WriterClient, destinationTable: string, event: Bitrix24Event) {
   const recordId = getRecordIdFromEvent(event);
 
   let data: Deal | undefined;
@@ -33,18 +33,18 @@ export async function syncEventToBigquery(writeClient: WriterClient, destination
       },
     ];
 
-    return upsertRowsWithDefaultStream(writeClient, destinationTable, rows);
+    return upsertRows(writeClient, destinationTable, rows);
   } else {
     const rows = [
       {
         ID: event.data.FIELDS.ID,
       },
     ];
-    return deleteRowsWithDefaultStream(writeClient, destinationTable, rows);
+    return deleteRows(writeClient, destinationTable, rows);
   }
 }
 
-export async function upsertRowsWithDefaultStream(writeClient: WriterClient, destinationTable: string, rows: JSONList) {
+export async function upsertRows(writeClient: WriterClient, destinationTable: string, rows: JSONList) {
   const rowsWithChangeType = rows.map((row) => {
     return {
       ...row,
@@ -96,7 +96,7 @@ export async function upsertRowsWithDefaultStream(writeClient: WriterClient, des
   return writer.appendRows(rowsWithChangeType).getResult();
 }
 
-export async function deleteRowsWithDefaultStream(writeClient: WriterClient, destinationTable: string, rows: JSONList) {
+export async function deleteRows(writeClient: WriterClient, destinationTable: string, rows: JSONList) {
   const rowsWithChangeType = rows.map((row) => {
     return {
       ...row,

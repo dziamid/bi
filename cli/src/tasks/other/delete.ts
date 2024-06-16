@@ -13,7 +13,7 @@ const data = [
   },
 ];
 
-const result = await bigqueryV2.writeStream.deleteRowsWithDefaultStream(writeClient, destinationTable, data);
+const result = await bigqueryV2.writeStream.deleteRows(writeClient, destinationTable, data);
 console.log(result);
 
 writeClient.close();

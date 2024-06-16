@@ -13,7 +13,7 @@ const listDealCategoryStageResult = await api.listDealCategoryStage();
 console.log(`Got ${listDealCategoryStageResult.result.length} stages`);
 
 try {
-  const result = await bigqueryV2.writeStream.upsertRowsWithDefaultStream(writeClient, destinationTable, listDealCategoryStageResult.result);
+  const result = await bigqueryV2.writeStream.upsertRows(writeClient, destinationTable, listDealCategoryStageResult.result);
   console.log(result);
 } finally {
   writeClient.close();

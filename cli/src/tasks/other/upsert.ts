@@ -28,7 +28,7 @@ const data = [
   },
 ];
 
-const result = await bigqueryV2.writeStream.upsertRowsWithDefaultStream(writeClient, destinationTable, data);
+const result = await bigqueryV2.writeStream.upsertRows(writeClient, destinationTable, data);
 console.log(result);
 
 writeClient.close();

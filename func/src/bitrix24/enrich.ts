@@ -12,10 +12,10 @@ export const enrich = async (req: Request, res: Response) => {
   const model = utils.getModelFromEvent(event);
   const eventType = utils.getEventTypeFromEvent(event);
   const projectId = env.getGoogleProjectId();
-  const datasetId = 'bitrix24';
-  const tableId = 'deals';
-  const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
+  const datasetId = bigqueryV2.config.datasetId;
+  const tableId = bigqueryV2.schema.dealTable.name;
   const writeClient = new bigqueryV2.writeStream.managedwriter.WriterClient({ projectId });
+  const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
 
   if (eventType === 'unknown') {
     console.log(`Ignoring unknown event type in event: '${event.event}`);
@@ -29,7 +29,7 @@ export const enrich = async (req: Request, res: Response) => {
     return;
   }
 
-  await bigqueryV2.writeStream.syncEventToBigquery(writeClient, destinationTable, event);
+  await bigqueryV2.writeStream.syncEvent(writeClient, destinationTable, event);
   writeClient.close();
 
   res.status(200).send('OK');

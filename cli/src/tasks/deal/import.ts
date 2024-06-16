@@ -12,7 +12,7 @@ const dealsResponse = await api.listDeals();
 console.log(`Got ${dealsResponse.result.length} deals`);
 
 try {
-  const result = await bigqueryV2.writeStream.upsertRowsWithDefaultStream(writeClient, destinationTable, dealsResponse.result);
+  const result = await bigqueryV2.writeStream.upsertRows(writeClient, destinationTable, dealsResponse.result);
   console.log(result);
 } finally {
   writeClient.close();
