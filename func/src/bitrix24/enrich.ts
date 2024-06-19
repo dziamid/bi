@@ -13,7 +13,7 @@ export const enrich = async (req: Request, res: Response) => {
   const eventType = utils.getEventTypeFromEvent(event);
   const projectId = env.getGoogleProjectId();
   const datasetId = bigqueryV2.config.datasetId;
-  const tableId = bigqueryV2.schema.dealTable.name;
+  const tableId = bigqueryV2.meta.dealTable.name;
   const writeClient = new bigqueryV2.writeStream.managedwriter.WriterClient({ projectId });
   const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
 

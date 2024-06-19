@@ -11,6 +11,10 @@ type TableMetadata = TableMetadataOrig & { name: string };
 export const dealTable: TableMetadata = {
   name: 'deal',
   type: 'TABLE',
+  timePartitioning: {
+    type: 'MONTH',
+    field: 'DATE_CREATE',
+  },
   tableConstraints: {
     primaryKey: { columns: ['ID'] },
   },
@@ -20,6 +24,8 @@ export const dealTable: TableMetadata = {
       { name: 'TITLE', type: 'STRING' },
       { name: 'STAGE_ID', type: 'STRING' },
       { name: 'TYPE_ID', type: 'STRING' },
+      { name: 'DATE_CREATE', type: 'DATETIME' },
+      { name: 'DATE_MODIFY', type: 'DATETIME' },
     ],
   },
 };

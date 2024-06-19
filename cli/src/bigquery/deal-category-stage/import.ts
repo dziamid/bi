@@ -5,8 +5,8 @@ import { env } from '@bi/core';
 dotenv.config();
 
 const projectId = env.getGoogleProjectId();
-const schema = bigqueryV2.schema.dealCategoryStageTable;
-const destinationTable = bigqueryV2.table.getTableName(schema.name);
+const meta = bigqueryV2.meta.dealCategoryStageTable;
+const destinationTable = bigqueryV2.table.getTableName(meta.name);
 const writeClient = new bigqueryV2.writeStream.managedwriter.WriterClient({ projectId });
 
 const listDealCategoryStageResult = await api.listDealCategoryStage();

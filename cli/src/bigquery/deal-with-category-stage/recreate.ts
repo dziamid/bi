@@ -13,9 +13,9 @@ const query = `
     d.*,
     CONCAT(s.SORT, ' ', s.NAME) as NAME_WITH_ORDER
   FROM
-    \`${datasetId}.${bigqueryV2.schema.dealCategoryStageTable.name}\` s
+    \`${datasetId}.${bigqueryV2.meta.dealCategoryStageTable.name}\` s
   LEFT JOIN
-    \`${datasetId}.${bigqueryV2.schema.dealTable.name}\` d
+    \`${datasetId}.${bigqueryV2.meta.dealTable.name}\` d
   ON
     s.STATUS_ID = d.STAGE_ID
 `;
