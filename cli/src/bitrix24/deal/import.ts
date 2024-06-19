@@ -1,28 +1,30 @@
 import * as dotenv from 'dotenv';
-import { api, bigqueryV2 } from '@bi/bitrix24';
+import * as bitrix24 from '@bi/bitrix24';
+import * as bq from '@bi/bigquery';
 import { env } from '@bi/core';
-dotenv.config();
 import { format, parseISO } from 'date-fns';
 
-const projectId = env.getGoogleProjectId();
-const meta = bigqueryV2.meta.dealTable;
-const destinationTable = bigqueryV2.table.getTableName(meta.name);
-const writeClient = new bigqueryV2.writeStream.managedwriter.WriterClient({ projectId });
+dotenv.config();
 
-const dealsResponse = await api.listDeals();
+const projectId = env.getGoogleProjectId();
+const meta = bitrix24.bigquery.meta.dealTable;
+const destinationTable = bq.table.getTablePath(projectId, bitrix24.datasetId, meta.name);
+const writeClient = new bq.stream.WriterClient({ projectId });
+
+const dealsResponse = await bitrix24.api.listDeals();
 const deals = dealsResponse.result.map((deal) => {
   return {
     ...deal,
     DATE_CREATE: format(parseISO(deal.DATE_CREATE), 'yyyy-MM-dd HH:mm:ss'),
     DATE_MODIFY: format(parseISO(deal.DATE_MODIFY), 'yyyy-MM-dd HH:mm:ss'),
-  }
+  };
 });
 
 console.log(deals);
 console.log(`Got ${dealsResponse.result.length} deals`);
 
 try {
-  const result = await bigqueryV2.writeStream.upsertRows(writeClient, destinationTable, deals);
+  const result = await bq.stream.upsertRows(writeClient, destinationTable, deals);
   console.log(result);
 } finally {
   writeClient.close();

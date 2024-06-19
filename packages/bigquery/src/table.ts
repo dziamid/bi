@@ -24,6 +24,8 @@ export function deleteTable(bigquery: BigQuery, datasetId: string, tableId: stri
 export async function recreateTable(bigquery: BigQuery, datasetId: string, tableId: string, metadata: TableMetadata) {
   await deleteTable(bigquery, datasetId, tableId);
   console.log(`Table ${tableId} deleted`);
-  await createTable(bigquery, datasetId, tableId, metadata);
+  const result = await createTable(bigquery, datasetId, tableId, metadata);
   console.log(`Table ${tableId} created`);
+
+  return result;
 }

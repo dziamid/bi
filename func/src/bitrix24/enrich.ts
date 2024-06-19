@@ -1,6 +1,7 @@
 import {type Request, type Response} from 'express';
-import {bigqueryV2, types, utils} from '@bi/bitrix24';
+import * as bitrix24 from '@bi/bitrix24';
 import {env} from '@bi/core';
+import * as bq from '@bi/bigquery';
 
 /**
  * Receives webhook events from Bitrix24 and publishes it to a Pub/Sub topic
@@ -8,13 +9,13 @@ import {env} from '@bi/core';
  * @param res
  */
 export const enrich = async (req: Request, res: Response) => {
-  const event: types.Bitrix24Event = req.body;
-  const model = utils.getModelFromEvent(event);
-  const eventType = utils.getEventTypeFromEvent(event);
+  const event: bitrix24.types.Bitrix24Event = req.body;
+  const model = bitrix24.utils.getModelFromEvent(event);
+  const eventType = bitrix24.utils.getEventTypeFromEvent(event);
   const projectId = env.getGoogleProjectId();
-  const datasetId = bigqueryV2.config.datasetId;
-  const tableId = bigqueryV2.meta.dealTable.name;
-  const writeClient = new bigqueryV2.writeStream.managedwriter.WriterClient({ projectId });
+  const datasetId = bitrix24.datasetId;
+  const tableId = bitrix24.bigquery.meta.dealTable.name;
+  const writeClient = new bq.stream.WriterClient({ projectId });
   const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
 
   if (eventType === 'unknown') {
@@ -29,7 +30,7 @@ export const enrich = async (req: Request, res: Response) => {
     return;
   }
 
-  await bigqueryV2.writeStream.syncEvent(writeClient, destinationTable, event);
+  await bitrix24.bigquery.events.syncEvent(writeClient, destinationTable, event);
   writeClient.close();
 
   res.status(200).send('OK');

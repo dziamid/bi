@@ -1,15 +1,13 @@
 import * as dotenv from 'dotenv';
-import { bigqueryV2 } from '@bi/bitrix24';
+import * as moysklad from '@bi/moysklad';
+import * as bq from '@bi/bigquery';
 
 dotenv.config();
 
-const datasetId = bigqueryV2.config.datasetId;
-const metadata = bigqueryV2.meta.dealTable;
+const datasetId = moysklad.bigquery.datasetId;
+const metadata = moysklad.bigquery.customerOrderTable;
 const tableId = metadata.name;
-const tablePath = bigqueryV2.table.getTableName(tableId);
 
-const bq = new bigqueryV2.BigQuery();
-const table = bq.dataset(datasetId).table(tableId);
+const bqClient = new bq.BigQuery();
+const table = bqClient.dataset(datasetId).table(tableId);
 await table.setMetadata(metadata);
-
-console.log(`Table ${tablePath} metadata updated`);
