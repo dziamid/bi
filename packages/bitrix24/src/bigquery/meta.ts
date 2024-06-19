@@ -1,4 +1,5 @@
 import type { TableMetadata as TableMetadataOrig } from '@google-cloud/bigquery/build/src/table';
+
 type JSONPrimitive = string | number | bigint | boolean | Date | null;
 type JSONValue = JSONPrimitive | JSONObject | JSONArray;
 type JSONObject = {
@@ -50,6 +51,8 @@ export interface Deal {
   TITLE: string;
   STAGE_ID: string;
   TYPE_ID: string;
+  DATE_CREATE: string;
+  DATE_MODIFY: string;
 
   [key: string]: JSONPrimitive;
 }
@@ -58,5 +61,6 @@ export interface DealCategoryStage {
   NAME: string;
   SORT: number;
   STATUS_ID: string;
+
   [key: string]: JSONPrimitive;
 }
