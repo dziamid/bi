@@ -45,9 +45,10 @@ const customerOrders: moysklad.bigquery.CustomerOrder[] = customerOrderResult.ro
 });
 
 console.log(`Got ${customerOrders.length} customer orders`);
-console.log(customerOrders);
+const rows = customerOrders.map(bq.utils.mapKeysToSnakeCase);
+console.log(rows);
 try {
-  const result = await bq.stream.upsertRows(writeClient, tablePath, customerOrders);
+  const result = await bq.stream.upsertRows(writeClient, tablePath, rows);
   console.log(result);
 } finally {
   writeClient.close();

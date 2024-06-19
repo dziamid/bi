@@ -1,5 +1,6 @@
 import * as table from './table';
 import * as stream from './stream';
+import * as utils from './utils';
 
 import { managedwriter } from '@google-cloud/bigquery-storage';
 import { BigQuery } from '@google-cloud/bigquery';
@@ -12,4 +13,4 @@ enum WriteStreamView {
   FULL = 2,
 }
 
-export { table, stream, type WriterClient, BigQuery, WriteStreamView };
+export { table, stream, utils, type WriterClient, BigQuery, WriteStreamView };
