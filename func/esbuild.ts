@@ -13,6 +13,7 @@ esbuild
     outfile: 'dist/index.js',
     format: 'esm',
     external: getExternal(packageJson),
+    metafile: true,
   })
   .catch(() => process.exit(1));
 
@@ -24,7 +25,6 @@ const dotenvConfig = config();
 const envVarsYaml = yaml.dump(dotenvConfig.parsed);
 
 await writeFile('dist/.env.yaml', envVarsYaml, 'utf-8');
-
 
 type PackageJson = {
   main?: string;

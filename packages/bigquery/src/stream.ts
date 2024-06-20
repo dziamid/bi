@@ -1,5 +1,5 @@
 import { adapt, managedwriter } from '@google-cloud/bigquery-storage';
-import type { JSONList } from '@google-cloud/bigquery-storage/build/src/managedwriter/json_writer';
+import type { JSONList, JSONObject } from '@google-cloud/bigquery-storage/build/src/managedwriter/json_writer';
 
 export const WriterClient = managedwriter.WriterClient;
 
@@ -9,6 +9,20 @@ export enum WriteStreamView {
   WRITE_STREAM_VIEW_UNSPECIFIED = 0,
   BASIC = 1,
   FULL = 2,
+}
+
+type EventType = 'create' | 'update' | 'delete';
+
+export async function syncRow(writeClient: WriterClient, table: string, row: JSONObject, eventType: EventType) {
+  return syncRows(writeClient, table, [row], eventType);
+}
+
+export async function syncRows(writeClient: WriterClient, table: string, rows: JSONList, eventType: EventType) {
+  if (['create', 'update'].includes(eventType)) {
+    return upsertRows(writeClient, table, rows);
+  } else {
+    return deleteRows(writeClient, table, rows);
+  }
 }
 
 export async function upsertRows(writeClient: WriterClient, destinationTable: string, rows: JSONList) {

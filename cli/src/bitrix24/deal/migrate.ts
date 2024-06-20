@@ -4,10 +4,9 @@ import * as bq from '@bi/bigquery';
 
 dotenv.config();
 
-const datasetId = bitrix24.datasetId;
-const metadata = bitrix24.bigquery.meta.dealTable;
-const tableId = metadata.name;
+const datasetId = bitrix24.bigquery.datasetId;
+const dealTable = bitrix24.bigquery.dealTable;
 
 const bqClient = new bq.BigQuery();
-const table = bqClient.dataset(datasetId).table(tableId);
-await table.setMetadata(metadata);
+const table = bqClient.dataset(datasetId).table(dealTable.name);
+await table.setMetadata(dealTable);

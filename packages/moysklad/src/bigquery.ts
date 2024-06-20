@@ -16,11 +16,10 @@ export interface CustomerOrder {
   id: string;
   name: string;
   sum: number;
-  agentPhone: string;
-  stateName: string;
   created: string;
   updated: string;
-
+  agent_phone: string | null;
+  state_name: string | null;
   [key: string]: JSONPrimitive;
 }
 

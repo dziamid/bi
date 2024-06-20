@@ -12,8 +12,8 @@ app.use((req: Request, res: Response) => {
   res.status(404).send(`Cannot ${req.method} ${req.url}`);
 });
 
-// Listen to the App Engine-specified port, or 8082 otherwise
-const PORT = process.env.PORT || 8082;
+// Listen to the App Engine-specified port, or 8092 otherwise
+const PORT = process.env.PORT || 8092;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });

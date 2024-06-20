@@ -7,8 +7,8 @@ import { format, parseISO } from 'date-fns';
 dotenv.config();
 
 const projectId = env.getGoogleProjectId();
-const meta = bitrix24.bigquery.meta.dealTable;
-const destinationTable = bq.table.getTablePath(projectId, bitrix24.datasetId, meta.name);
+const dealTable = bitrix24.bigquery.dealTable;
+const destinationTable = bq.table.getTablePath(projectId, bitrix24.bigquery.datasetId, dealTable.name);
 const writeClient = new bq.stream.WriterClient({ projectId });
 
 const dealsResponse = await bitrix24.api.listDeals();

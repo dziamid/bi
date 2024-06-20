@@ -1,4 +1,6 @@
 import fetch from 'node-fetch';
+import * as moysklad from '@bi/moysklad/src/index';
+import { format, parseISO } from 'date-fns';
 
 type Meta = {
   href: string; //'https://api.moysklad.ru/api/remap/1.2/entity/customerorder/6a87cfef-2e00-11ef-0a80-07bf004d8e54';
@@ -17,7 +19,7 @@ type MetaList = {
   offset: number; //0;
 };
 
-type CustomerOrderResult = {
+export type CustomerOrder = {
   meta: Meta;
   id: string; //'6a87cfef-2e00-11ef-0a80-07bf004d8e54';
   accountId: string; //'ce76a0d0-2329-11ef-0a80-058500006004';
@@ -69,7 +71,7 @@ type CustomerOrderResult = {
   reservedSum: 0.0;
 };
 
-type CounterpartyResult = {
+type Counterparty = {
   meta: Meta;
   id: string;
   accountId: string;
@@ -101,14 +103,14 @@ type CustomerOrderState = {
   entityType: string; //"customerorder"
 };
 
-type ListCustomerOrderResult = {
+type ListCustomerOrder = {
   context: {
     employee: {
       meta: Meta;
     };
   };
   meta: MetaList;
-  rows: CustomerOrderResult[];
+  rows: CustomerOrder[];
 };
 
 export async function listCustomerOrder() {
@@ -120,7 +122,7 @@ export async function listCustomerOrder() {
     },
   });
 
-  const result = (await response.json()) as Promise<ListCustomerOrderResult>;
+  const result = (await response.json()) as Promise<ListCustomerOrder>;
   return result;
 }
 
@@ -133,7 +135,7 @@ export async function getCustomerOrder(id: string) {
     },
   });
 
-  const result = (await response.json()) as Promise<CustomerOrderResult>;
+  const result = (await response.json()) as Promise<CustomerOrder>;
   return result;
 }
 
@@ -146,7 +148,7 @@ export async function getCounterparty(id: string) {
     },
   });
 
-  const result = (await response.json()) as Promise<CounterpartyResult>;
+  const result = (await response.json()) as Promise<Counterparty>;
   return result;
 }
 
@@ -163,7 +165,26 @@ export async function getCustomerOrderState(id: string) {
   return result;
 }
 
-
 export function getMetaId(meta: Meta) {
   return meta.href.split('/').pop() as string;
+}
+
+export async function mapCustomerOrder(record: moysklad.api.CustomerOrder): Promise<moysklad.bigquery.CustomerOrder> {
+  const agentId = moysklad.api.getMetaId(record.agent.meta);
+  const agentP = moysklad.api.getCounterparty(agentId);
+  const stateId = moysklad.api.getMetaId(record.state.meta);
+  const stateP = moysklad.api.getCustomerOrderState(stateId);
+
+  const agent = await agentP;
+  const state = await stateP;
+
+  return {
+    id: record.id,
+    name: record.name,
+    sum: record.sum,
+    agent_phone: agent?.phone || null,
+    state_name: state?.name || null,
+    created: format(parseISO(record.created), 'yyyy-MM-dd HH:mm:ss'),
+    updated: format(parseISO(record.updated), 'yyyy-MM-dd HH:mm:ss'),
+  };
 }

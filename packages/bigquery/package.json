@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc && esbuild src/index.ts --bundle --platform=node  --packages=external --outfile=dist/index.js --format=esm",
+    "build": "tsx ./src/cli/build.ts",
     "dev": "nodemon",
     "lint": "tsc"
   },
@@ -15,9 +15,5 @@
   "dependencies": {
   },
   "devDependencies": {
-    "nodemon": "^3.1.1",
-    "@types/node": "^20.13.0",
-    "esbuild": "^0.21.4",
-    "typescript": "^5.4.5"
   }
 }

@@ -1,4 +1,5 @@
-import type { TableMetadata as TableMetadataOrig } from '@google-cloud/bigquery/build/src/table';
+import { BigQuery, type TableMetadata as TableMetadataOrig } from '@google-cloud/bigquery';
+
 
 type JSONPrimitive = string | number | bigint | boolean | Date | null;
 type JSONValue = JSONPrimitive | JSONObject | JSONArray;
@@ -7,8 +8,10 @@ type JSONObject = {
 };
 type JSONArray = Array<JSONValue>;
 type JSONList = Array<JSONObject>;
-
 type TableMetadata = TableMetadataOrig & { name: string };
+
+const datasetId = 'bitrix24';
+
 export const dealTable: TableMetadata = {
   name: 'deal',
   type: 'TABLE',
@@ -30,7 +33,6 @@ export const dealTable: TableMetadata = {
     ],
   },
 };
-
 export const dealCategoryStageTable: TableMetadata = {
   name: 'deal_category_stage',
   type: 'TABLE',
@@ -64,3 +66,5 @@ export interface DealCategoryStage {
 
   [key: string]: JSONPrimitive;
 }
+
+export { BigQuery, datasetId };

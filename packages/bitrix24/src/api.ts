@@ -1,8 +1,6 @@
-import { fromPairs, pick, values } from 'ramda';
+import { fromPairs, values } from 'ramda';
 import fetch from 'node-fetch';
-import {type Deal, type DealCategoryStage, type JSONObject} from '../types';
-
-const allowedFields: readonly (keyof Deal)[] = ['ID', 'TITLE', 'TYPE_ID', 'STAGE_ID'];
+import { type Deal, type DealCategoryStage } from './types';
 
 type ResultTime = {
   start: number;

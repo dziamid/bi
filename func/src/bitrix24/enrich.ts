@@ -10,13 +10,13 @@ import * as bq from '@bi/bigquery';
  */
 export const enrich = async (req: Request, res: Response) => {
   const event: bitrix24.types.Bitrix24Event = req.body;
-  const model = bitrix24.utils.getModelFromEvent(event);
-  const eventType = bitrix24.utils.getEventTypeFromEvent(event);
+  const model = bitrix24.events.getModelFromEvent(event);
+  const eventType = bitrix24.events.getEventTypeFromEvent(event);
   const projectId = env.getGoogleProjectId();
-  const datasetId = bitrix24.datasetId;
-  const tableId = bitrix24.bigquery.meta.dealTable.name;
+  const datasetId = bitrix24.bigquery.datasetId;
+  const dealTable = bitrix24.bigquery.dealTable;
   const writeClient = new bq.stream.WriterClient({ projectId });
-  const destinationTable = `projects/${projectId}/datasets/${datasetId}/tables/${tableId}`;
+  const destinationTable = bq.table.getTablePath(projectId, datasetId, dealTable.name);
 
   if (eventType === 'unknown') {
     console.log(`Ignoring unknown event type in event: '${event.event}`);
@@ -29,8 +29,7 @@ export const enrich = async (req: Request, res: Response) => {
     res.status(200).send('OK');
     return;
   }
-
-  await bitrix24.bigquery.events.syncEvent(writeClient, destinationTable, event);
+  await bitrix24.events.syncEvent(writeClient, destinationTable, event);
   writeClient.close();
 
   res.status(200).send('OK');

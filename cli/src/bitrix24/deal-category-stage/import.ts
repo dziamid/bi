@@ -7,9 +7,9 @@ import * as bq from '@bi/bigquery';
 dotenv.config();
 
 const projectId = env.getGoogleProjectId();
-const datasetId = bitrix24.datasetId;
-const meta = bitrix24.bigquery.meta.dealCategoryStageTable;
-const destinationTable = bq.table.getTablePath(projectId, datasetId, meta.name);
+const datasetId = bitrix24.bigquery.datasetId;
+const dealCategoryStageTable = bitrix24.bigquery.dealCategoryStageTable;
+const destinationTable = bq.table.getTablePath(projectId, datasetId, dealCategoryStageTable.name);
 const writeClient = new bq.stream.WriterClient({ projectId });
 
 const listDealCategoryStageResult = await api.listDealCategoryStage();

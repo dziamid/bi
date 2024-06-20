@@ -24,12 +24,6 @@ export type Bitrix24Event = {
   };
 };
 
-export type BatchEvent = {
-  id: string;
-  model: 'deal' | 'unknown';
-  eventType: 'create' | 'update' | 'delete' | 'unknown';
-};
-
 export interface Deal {
   ID: string;
   TITLE: string;
