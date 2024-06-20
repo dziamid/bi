@@ -1,2 +1,0 @@
-{"body":{"foo":"bar"},"id":"a33e3164-f8b6-4065-8db0-f5f79fec77f4","level":"info","message":"Request Body","method":"POST","timestamp":"2024-06-06T08:19:45.467Z","url":"/foo/bar"}
-{"level":"info","message":"a33e3164-f8b6-4065-8db0-f5f79fec77f4 POST /foo/bar 200 1.308 ms","timestamp":"2024-06-06T08:19:45.472Z"}

@@ -13,19 +13,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@google-cloud/bigquery": "^7.7.0",
-    "@google-cloud/bigquery-storage": "^4.8.0",
-    "@google-cloud/functions-framework": "^3.4.0",
-    "@google-cloud/pubsub": "^4.4.0",
-    "@google-cloud/tasks": "^5.4.0",
-    "@types/node": "^20.12.13",
-    "@types/ramda": "^0.30.0",
-    "dotenv": "^16.4.5",
-    "ramda": "^0.30.0",
-    "typescript": "^5.4.5",
-    "avro-js": "^1.11.3",
-    "tsx": "^4.15.2",
-    "lodash": "^4.17.21",
-    "@types/lodash": "^4.17.5"
+    "@bi/bigquery": "*",
+    "@bi/core": "*",
+    "@bi/bitrix24": "*",
+    "@bi/moysklad": "*"
   }
 }

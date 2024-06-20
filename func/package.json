@@ -15,5 +15,11 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@bi/bigquery": "*",
+    "@bi/core": "*",
+    "@bi/bitrix24": "*",
+    "@bi/moysklad": "*"
+  }
 }
