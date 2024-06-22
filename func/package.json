@@ -7,19 +7,12 @@
   "scripts": {
     "build": "tsx src/cli/build.ts",
     "deploy": "tsx src/cli/deploy.ts",
-    "dev": "nodemon",
-    "gcp-build": "npm run build",
     "lint": "tsc",
     "prestart": "npm run build",
-    "start": "functions-framework --target=api3 --port=9001"
+    "start": "cd dist && functions-framework --target=api3 --port=9001",
+    "dev": "nodemon --watch 'src/**' --ext 'ts' --exec 'npm run start'"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@bi/bigquery": "*",
-    "@bi/core": "*",
-    "@bi/bitrix24": "*",
-    "@bi/moysklad": "*"
-  }
+  "license": "ISC"
 }

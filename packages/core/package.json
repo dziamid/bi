@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc && esbuild src/index.ts --bundle --platform=node  --packages=external --outfile=dist/index.js --format=esm",
-    "dev": "nodemon",
+    "dev": "nodemon --watch 'src/**' --ext 'ts' --exec 'npm run build'",
     "lint": "tsc"
   },
   "keywords": [],

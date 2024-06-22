@@ -5,8 +5,8 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsx ./src/cli/build.ts",
-    "dev": "nodemon",
+    "build": "tsc && esbuild src/index.ts --bundle --platform=node  --packages=external --outfile=dist/index.js --format=esm",
+    "dev": "nodemon --watch 'src/**' --ext 'ts' --exec 'npm run build'",
     "lint": "tsc"
   },
   "keywords": [],

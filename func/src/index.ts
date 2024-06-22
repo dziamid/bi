@@ -13,8 +13,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger);
 
-app.use('/bitrix24', bitrix24);
 app.use('/moysklad', moysklad);
+app.use('/bitrix24', bitrix24);
+app.get('/', (req, res) => {
+    res.send('Welcome to the API');
+});
 app.use(catchAll);
 
 export const api3 = app;

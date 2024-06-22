@@ -7,7 +7,6 @@ import { config } from 'dotenv';
 import * as path from 'path';
 import resolve from 'resolve';
 import rootPackageJson from '../../../package.json';
-import packageJson from '../../package.json';
 
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist');
@@ -35,7 +34,11 @@ await writeFile('dist/package.json', JSON.stringify(distPackageJson, null, 2));
 async function buildPackageJson(metafile: Metafile) {
   const { dependencies, devDependencies } = getExternalDepsFromMetafile(metafile, rootPackageJson);
   return {
-    ...packageJson,
+    main: 'index.js',
+    type: 'module',
+    scripts: {
+      start: 'functions-framework --target=api3 --port=9001',
+    },
     dependencies,
     devDependencies,
   };
