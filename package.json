@@ -9,7 +9,11 @@
   ],
   "scripts": {
     "dev": "nx run-many -t dev --all --parallel=1000",
-    "build": "nx run-many -t build --all"
+    "build": "nx run-many -t build --all",
+    "deploy": "nx run @bi/func:deploy",
+    "env:local": "nx run -t env:local @bi/cli",
+    "env:staging": "nx run -t env:staging @bi/cli",
+    "env:prod": "nx run -t env:prod @bi/cli"
   },
   "dependencies": {
     "@google-cloud/bigquery": "^7.7.0",

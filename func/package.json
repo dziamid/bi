@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsx src/cli/build.ts",
-    "deploy": "tsx src/cli/deploy.ts",
+    "deploy": "gcloud functions deploy api3 --gen2 --runtime nodejs20 --trigger-http --region=europe-west3 --allow-unauthenticated --service-account=function@veloman-staging.iam.gserviceaccount.com --env-vars-file=dist/.env.yaml  --source=dist",
     "lint": "tsc",
     "prestart": "npm run build",
     "start": "cd dist && functions-framework --target=api3 --port=9001",
@@ -14,5 +14,11 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@bi/bigquery": "*",
+    "@bi/core": "*",
+    "@bi/bitrix24": "*",
+    "@bi/moysklad": "*"
+  }
 }
