@@ -113,6 +113,27 @@ type ListCustomerOrder = {
   rows: CustomerOrder[];
 };
 
+type WebhookList = {
+  context: {
+    employee: {
+      meta: Meta;
+    };
+  };
+  meta: MetaList;
+  rows: Webhook[];
+};
+
+type Webhook = {
+  meta: Meta;
+  id: string; //"af8944da-2e2a-11ef-0a80-0d0f00e3a6fb",
+  accountId: string; // "ce76a0d0-2329-11ef-0a80-058500006004",
+  entityType: string; //"customerorder",
+  url: string; //"https://webhook.site/1e4052b5-03d4-46e0-8a1e-c1c3e98d1a9c",
+  method: string; //"POST",
+  enabled: boolean; //true,
+  action: string; //"CREATE"
+};
+
 export async function listCustomerOrder() {
   const response = await fetch(`https://api.moysklad.ru/api/remap/1.2/entity/customerorder`, {
     method: 'GET',
@@ -187,4 +208,45 @@ export async function mapCustomerOrder(record: moysklad.api.CustomerOrder): Prom
     created: format(parseISO(record.created), 'yyyy-MM-dd HH:mm:ss'),
     updated: format(parseISO(record.updated), 'yyyy-MM-dd HH:mm:ss'),
   };
+}
+
+export async function listWebhooks() {
+  const response = await fetch(`https://api.moysklad.ru/api/remap/1.2/entity/webhook`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ffd8e780a7d8d26e7afb8d1873affcef03390067',
+    },
+  });
+
+  const result = (await response.json()) as Promise<WebhookList>;
+  return result;
+}
+
+export async function createWebhook(url: string, entityType: string, action: string) {
+  const response = await fetch(`https://api.moysklad.ru/api/remap/1.2/entity/webhook`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ffd8e780a7d8d26e7afb8d1873affcef03390067',
+    },
+    body: JSON.stringify({
+      url,
+      entityType,
+      action,
+      method: 'POST',
+    }),
+  });
+
+  const result = (await response.json()) as Promise<Webhook>;
+  return result;
+}
+
+export async function deleteWebhook(id: string) {
+  await fetch(`https://api.moysklad.ru/api/remap/1.2/entity/webhook/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: 'Bearer ffd8e780a7d8d26e7afb8d1873affcef03390067',
+    },
+  });
 }

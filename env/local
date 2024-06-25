@@ -1,4 +1,7 @@
+ENV=local
 GOOGLE_CLOUD_PROJECT=veloman-staging
 GOOGLE_CLOUD_TASKS_LOCATION=europe-west3
+GOOGLE_CLOUD_API_GATEWAY_LOCATION=europe-west2
 FUNCTION_URL=https://dz.ngrok.dev
+WEBHOOK_URL=https://webhooks-staging-a4j3ocb6.nw.gateway.dev
 GCLOUD_CONFIGURATION=bi-staging

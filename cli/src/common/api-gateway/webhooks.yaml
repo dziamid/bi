@@ -1,0 +1,23 @@
+swagger: '2.0'
+info:
+  title: Webhooks API
+  version: '1.0.0'
+paths:
+  /bitrix24:
+    post:
+      x-google-backend:
+        address: https://europe-west3-veloman-staging.cloudfunctions.net/api3/bitrix24/ingest
+      summary: "Proxy all POST requests"
+      operationId: "bitrix24.post"
+      responses:
+        '200':
+          description: "A successful response"
+  /moysklad:
+    post:
+      x-google-backend:
+        address: https://europe-west3-veloman-staging.cloudfunctions.net/api3/moysklad/ingest
+      summary: "Proxy all POST requests"
+      operationId: "moysklad.post"
+      responses:
+        '200':
+          description: "A successful response"

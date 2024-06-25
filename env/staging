@@ -1,4 +1,7 @@
+ENV=staging
 GOOGLE_CLOUD_PROJECT=veloman-staging
 FUNCTION_URL=https://europe-west3-veloman-staging.cloudfunctions.net/api3
+WEBHOOK_URL=https://webhooks-staging-a4j3ocb6.nw.gateway.dev
 GCLOUD_CONFIGURATION=bi-staging
 GOOGLE_CLOUD_TASKS_LOCATION=europe-west3
+GOOGLE_CLOUD_API_GATEWAY_LOCATION=europe-west2

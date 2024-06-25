@@ -7,7 +7,8 @@
     "env:local": "tsx ./src/env.ts local",
     "env:staging": "tsx ./src/env.ts staging",
     "env:production": "tsx ./src/env.ts production",
-    "build": "tsc"
+    "build": "tsc",
+    "webhooks": "tsx ./src/moysklad/webhooks/recreate.ts"
   },
   "keywords": [],
   "author": "",

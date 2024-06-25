@@ -11,9 +11,10 @@
     "dev": "nx run-many -t dev --all --parallel=1000",
     "build": "nx run-many -t build --all",
     "deploy": "nx run @bi/func:deploy",
-    "env:local": "nx run -t env:local @bi/cli",
-    "env:staging": "nx run -t env:staging @bi/cli",
-    "env:prod": "nx run -t env:prod @bi/cli"
+    "env:local": "nx run @bi/cli:env:local",
+    "env:staging": "nx run @bi/cli:env:staging",
+    "env:prod": "nx run @bi/cli:env:prod",
+    "webhooks": "nx run @bi/cli:webhooks"
   },
   "dependencies": {
     "@google-cloud/bigquery": "^7.7.0",
@@ -29,6 +30,7 @@
     "ramda": "^0.30.0"
   },
   "devDependencies": {
+    "@google-cloud/api-gateway": "^3.3.0",
     "@types/express": "^4.17.21",
     "@types/js-yaml": "^4.0.9",
     "@types/morgan": "^1.9.9",

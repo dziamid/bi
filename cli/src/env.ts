@@ -1,6 +1,9 @@
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { parse } from 'dotenv';
+import { currentVersionSuffix, useConfig } from './common/api-gateway/utils';
+import { ApiGatewayServiceClient } from '@google-cloud/api-gateway';
+import * as dotenv from "dotenv";
 
 async function run() {
   const env = process.argv[2] as string;
@@ -17,6 +20,13 @@ async function run() {
   runCommand(`gcloud config configurations activate ${configuration}`);
   runCommand(`cp ${envSource} .env`);
   runCommand(`cp ${envSource} ../func/.env`);
+
+  dotenv.config();
+
+  console.log(`Updating webhooks`);
+  const client = new ApiGatewayServiceClient();
+  const gatewayConfigId = `webhooks-${env}-${currentVersionSuffix}`;
+  await useConfig(client, gatewayConfigId);
 }
 
 run()
